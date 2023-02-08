@@ -56,6 +56,7 @@ END_MESSAGE_MAP()
 CFileEditorDlg::CFileEditorDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_FILEEDITOR_DIALOG, pParent)
 	, editResult(_T(""))
+	, descriptionLabel(_T(""))
 {
 	lineNumber = 0, lines = 0;
 	currentDescription = currentDisplay = _T("");
@@ -68,6 +69,7 @@ void CFileEditorDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Text(pDX, IDC_EDIT1, editResult);
+	DDX_Text(pDX, IDC_DESCRIPTION, descriptionLabel);
 }
 
 BEGIN_MESSAGE_MAP(CFileEditorDlg, CDialogEx)
@@ -174,7 +176,6 @@ void CFileEditorDlg::OnEnChangeEdit1()
 {
 	UpdateData(TRUE);
 	displays[lineNumber] = editResult;
-	
 }
 
 
@@ -189,8 +190,7 @@ void CFileEditorDlg::OnBnClickedButton2()
 	}
 	currentDescription = descriptions[lineNumber];
 	currentDisplay = displays[lineNumber];
-	CWnd* label = GetDlgItem(IDC_DESCRIPTION);
-	label->SetWindowText(currentDescription);
+	descriptionLabel = currentDescription;
 	editResult = currentDisplay;
 	UpdateData(FALSE);
 }
@@ -207,8 +207,7 @@ void CFileEditorDlg::OnBnClickedButton1()
 	}
 	currentDescription = descriptions[lineNumber];
 	currentDisplay = displays[lineNumber];
-	CWnd* label = GetDlgItem(IDC_DESCRIPTION);
-	label->SetWindowText(currentDescription);
+	descriptionLabel = currentDescription;
 	editResult = currentDisplay;
 	UpdateData(FALSE);
 }
@@ -225,7 +224,7 @@ void CFileEditorDlg::OnBnClickedReaddatabtn()
 		{
 			while (getline(inputFile, currentLine)) {
 
-				size_t descStart = currentLine.find("\""); // The main category label for Materials on the Tree" Display="Japan Materials"
+				size_t descStart = currentLine.find("\"");
 				string temp = currentLine.substr(descStart + 1);
 				size_t descEnd = temp.find("\"");
 				string description = temp.substr(0, descEnd);
@@ -243,8 +242,7 @@ void CFileEditorDlg::OnBnClickedReaddatabtn()
 		}
 		currentDescription = descriptions[0];
 		currentDisplay = displays[0];
-		CWnd* label = GetDlgItem(IDC_DESCRIPTION);
-		label->SetWindowText(currentDescription);
+		descriptionLabel = currentDescription;
 		editResult = currentDisplay;
 		readData = true;
 	}

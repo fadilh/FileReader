@@ -42,4 +42,5 @@ public:
 	afx_msg void OnBnClickedButton1();
 	afx_msg void OnBnClickedReaddatabtn();
 	CString editResult;
+	CString descriptionLabel;
 };
